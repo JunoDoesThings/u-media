@@ -1,0 +1,223 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:uMedia.ViewModels"
+        xmlns:sys="using:System"
+        x:Class="uMedia.Views.SettingsWindow"
+        x:DataType="vm:SettingsViewModel"
+        Title="uMedia"
+        Width="460"
+        Height="560"
+        MinWidth="420"
+        MinHeight="480"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <TextBlock Grid.Row="0"
+                   Text="uMedia"
+                   FontSize="13"
+                   FontWeight="SemiBold"
+                   Margin="14,10,0,0"
+                   IsHitTestVisible="False" />
+
+        <TabControl Grid.Row="1" Margin="6,8,6,6">
+
+            <!-- ================= Widget ================= -->
+            <TabItem Header="Widget">
+                <ScrollViewer>
+                    <StackPanel Margin="10" Spacing="14">
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="View" FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding Views}"
+                                      SelectedItem="{Binding View}"
+                                      HorizontalAlignment="Stretch" />
+                            <TextBlock Text="Compact is 2×2, Wide is 4×2, Large is 4×4 grid cells."
+                                       FontSize="11"
+                                       Opacity="0.7"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Elements" FontWeight="SemiBold" />
+                            <CheckBox Content="Cover art" IsChecked="{Binding ShowCover}" />
+                            <CheckBox Content="Progress" IsChecked="{Binding ShowProgress}" />
+                            <CheckBox Content="Source app name" IsChecked="{Binding ShowSource}" />
+                            <CheckBox Content="Scroll long titles" IsChecked="{Binding ScrollTitle}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ================= Apps ================= -->
+            <TabItem Header="Apps">
+                <Grid Margin="10" RowDefinitions="Auto,Auto,*,Auto">
+
+                    <StackPanel Grid.Row="0" Spacing="6">
+                        <TextBlock Text="Filter" FontWeight="SemiBold" />
+                        <ComboBox ItemsSource="{Binding FilterModes}"
+                                  SelectedItem="{Binding FilterMode}"
+                                  HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{Binding FilterHint}"
+                                   FontSize="11"
+                                   Opacity="0.7"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1"
+                               Text="Apps"
+                               FontWeight="SemiBold"
+                               Margin="0,14,0,6" />
+
+                    <Border Grid.Row="2"
+                            BorderBrush="{DynamicResource WidgetStroke}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            IsEnabled="{Binding IsFilterEnabled}">
+
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Apps}" Margin="4">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:AppEntry">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="4,3">
+
+                                            <CheckBox Grid.Column="0"
+                                                      IsChecked="{Binding IsChecked}"
+                                                      VerticalAlignment="Center" />
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DisplayName}" />
+                                                <TextBlock Text="{Binding Id}"
+                                                           FontSize="10"
+                                                           Opacity="0.55"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+
+                                            <Button Grid.Column="2"
+                                                    Content="Remove"
+                                                    FontSize="11"
+                                                    Padding="8,2"
+                                                    Click="OnRemoveAppClick"
+                                                    IsVisible="{Binding !IsDetected}" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                    </Border>
+
+                    <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding NewAppId}"
+                                 Watermark="Add an app id, e.g. Spotify.exe"
+                                 IsEnabled="{Binding IsFilterEnabled}" />
+                        <Button Grid.Column="1"
+                                Content="Add"
+                                Margin="6,0,0,0"
+                                Command="{Binding AddApp}" />
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+
+            <!-- ================= Appearance ================= -->
+            <TabItem Header="Appearance">
+                <ScrollViewer>
+                    <StackPanel Margin="10" Spacing="14">
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Theme" FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding Variants}"
+                                      SelectedItem="{Binding Variant}"
+                                      HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Font" FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding Fonts}"
+                                      SelectedItem="{Binding Font}"
+                                      MaxDropDownHeight="320"
+                                      HorizontalAlignment="Stretch">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="sys:String">
+                                        <TextBlock Text="{Binding}" FontFamily="{Binding}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Backdrop" FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding Backdrops}"
+                                      SelectedItem="{Binding Backdrop}"
+                                      HorizontalAlignment="Stretch" />
+                            <TextBlock Text="Mica and Mica Alt need Windows 11. Earlier builds fall back to acrylic."
+                                       FontSize="11"
+                                       Opacity="0.7"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Tint over the backdrop" FontWeight="SemiBold" />
+                            <Slider Minimum="0" Maximum="0.8"
+                                    TickFrequency="0.02"
+                                    IsSnapToTickEnabled="True"
+                                    Value="{Binding Tint}" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Grid" FontWeight="SemiBold" />
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                                <TextBlock Text="Cell size" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="1"
+                                               Minimum="32" Maximum="160" Increment="4"
+                                               Width="120"
+                                               Value="{Binding CellSize}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                                <TextBlock Text="Margin" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="1"
+                                               Minimum="0" Maximum="48" Increment="2"
+                                               Width="120"
+                                               Value="{Binding Margin}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                                <TextBlock Text="Corner radius" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="1"
+                                               Minimum="0" Maximum="24" Increment="1"
+                                               Width="120"
+                                               Value="{Binding Radius}" />
+                            </Grid>
+
+                            <CheckBox Content="Snap to grid" IsChecked="{Binding SnapToGrid}" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Behaviour" FontWeight="SemiBold" />
+                            <CheckBox Content="Always on top" IsChecked="{Binding Topmost}" />
+                            <CheckBox Content="Hide from Alt+Tab and the taskbar" IsChecked="{Binding ToolWindow}" />
+                            <CheckBox Content="Start with Windows" IsChecked="{Binding RunOnStartup}" />
+                            <TextBlock Text="Startup runs whatever executable is running now. Publish the app first, or it will launch the .NET host instead of the widget."
+                                       FontSize="11"
+                                       Opacity="0.7"
+                                       TextWrapping="Wrap"
+                                       IsVisible="{Binding !IsStartupReliable}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+
+</Window>

@@ -1,0 +1,80 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:uMedia.ViewModels"
+        xmlns:views="using:uMedia.Views"
+        x:Class="uMedia.Views.WidgetWindow"
+        x:DataType="vm:MediaViewModel"
+        Title="uMedia"
+        Background="Transparent"
+        SystemDecorations="Full"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        ShowInTaskbar="False"
+        CanResize="True"
+        SizeToContent="Manual"
+        WindowStartupLocation="Manual">
+
+    <Window.Styles>
+        <!-- The grip only appears once the pointer is over the widget -->
+        <Style Selector="Path#Grip">
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border#Root:pointerover Path#Grip">
+            <Setter Property="Opacity" Value="0.45" />
+        </Style>
+    </Window.Styles>
+
+    <Border Name="Root"
+            Background="Transparent"
+            BorderBrush="{DynamicResource WidgetStroke}"
+            BorderThickness="1"
+            CornerRadius="8"
+            ClipToBounds="True">
+
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Settings…" Click="OnEditClick" />
+                <Separator />
+                <MenuItem Header="View">
+                    <MenuItem Header="Compact (2×2)" Click="OnCompactClick" />
+                    <MenuItem Header="Wide (4×2)" Click="OnWideClick" />
+                    <MenuItem Header="Large (4×4)" Click="OnLargeClick" />
+                </MenuItem>
+                <MenuItem Header="Backdrop">
+                    <MenuItem Header="Mica" Click="OnMicaClick" />
+                    <MenuItem Header="Mica Alt" Click="OnMicaAltClick" />
+                    <MenuItem Header="Acrylic" Click="OnAcrylicClick" />
+                    <MenuItem Header="Solid" Click="OnSolidClick" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Reset size to view default" Click="OnResetSizeClick" />
+                <Separator />
+                <MenuItem Header="Quit" Click="OnQuitClick" />
+            </ContextMenu>
+        </Border.ContextMenu>
+
+        <Panel>
+
+            <views:Media Name="Widget" />
+
+            <Path Name="Grip"
+                  Data="M11,0 L11,11 L0,11 Z"
+                  Width="11" Height="11"
+                  Margin="0,0,3,3"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Fill="{DynamicResource WidgetForegroundSecondary}"
+                  Cursor="BottomRightCorner"
+                  PointerPressed="OnGripPressed" />
+
+        </Panel>
+
+    </Border>
+
+</Window>

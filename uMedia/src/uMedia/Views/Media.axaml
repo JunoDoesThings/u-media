@@ -1,0 +1,226 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:uMedia.ViewModels"
+             xmlns:c="using:uMedia.Controls"
+             x:Class="uMedia.Views.Media"
+             x:DataType="vm:MediaViewModel"
+             Foreground="{DynamicResource WidgetForeground}">
+
+    <Grid>
+
+        <!-- ================= Compact, designed at 140x140 ================= -->
+        <Viewbox Stretch="Uniform" IsVisible="{Binding IsCompact}">
+        <Panel Width="140" Height="140">
+
+            <Border CornerRadius="6" ClipToBounds="True" Margin="8">
+                <Panel>
+                    <Border Background="{DynamicResource WidgetPlaceholder}" />
+                    <PathIcon Data="{DynamicResource NoteIcon}"
+                              Width="28" Height="28"
+                              Opacity="0.4"
+                              IsVisible="{Binding !HasCover}"
+                              Foreground="{DynamicResource WidgetForegroundSecondary}" />
+                    <Image Source="{Binding Cover}"
+                           Stretch="UniformToFill"
+                           IsVisible="{Binding HasCover}" />
+                    <Border Background="{DynamicResource WidgetScrim}" />
+                </Panel>
+            </Border>
+
+            <StackPanel VerticalAlignment="Bottom" Margin="16,0,16,14" Spacing="1">
+                <c:Marquee Text="{Binding Title}"
+                           IsScrolling="{Binding Model.ScrollTitle}"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Height="18"
+                           Foreground="{DynamicResource WidgetForeground}" />
+                <TextBlock Classes="caption"
+                           Text="{Binding Artist}"
+                           IsVisible="{Binding HasArtist}" />
+            </StackPanel>
+
+            <Button Classes="transport"
+                    Command="{Binding PlayPause}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="12">
+                <Panel>
+                    <TextBlock Classes="glyph" Text="{DynamicResource PlayGlyph}" IsVisible="{Binding IsPaused}" />
+                    <TextBlock Classes="glyph" Text="{DynamicResource PauseGlyph}" IsVisible="{Binding IsPlaying}" />
+                </Panel>
+            </Button>
+
+        </Panel>
+        </Viewbox>
+
+        <!-- ================= Wide, designed at 292x140 ================= -->
+        <Viewbox Stretch="Uniform" IsVisible="{Binding IsWide}">
+        <Grid Width="292" Height="140" ColumnDefinitions="Auto,*" Margin="14">
+
+            <Border Width="92" Height="92"
+                    CornerRadius="6"
+                    ClipToBounds="True"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding Model.ShowCover}">
+                <Panel>
+                    <Border Background="{DynamicResource WidgetPlaceholder}" />
+                    <PathIcon Data="{DynamicResource NoteIcon}"
+                              Width="22" Height="22"
+                              Opacity="0.4"
+                              IsVisible="{Binding !HasCover}"
+                              Foreground="{DynamicResource WidgetForegroundSecondary}" />
+                    <Image Source="{Binding Cover}"
+                           Stretch="UniformToFill"
+                           IsVisible="{Binding HasCover}" />
+                </Panel>
+            </Border>
+
+            <Grid Grid.Column="1"
+                  Margin="14,0,0,0"
+                  RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+                <TextBlock Grid.Row="0"
+                           Classes="caption"
+                           Text="{Binding Source}"
+                           IsVisible="{Binding ShowSource}" />
+
+                <c:Marquee Grid.Row="1"
+                           Text="{Binding Title}"
+                           IsScrolling="{Binding Model.ScrollTitle}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Height="20"
+                           Foreground="{DynamicResource WidgetForeground}" />
+
+                <TextBlock Grid.Row="2"
+                           Classes="subtitle"
+                           Text="{Binding Artist}"
+                           IsVisible="{Binding HasArtist}" />
+
+                <ProgressBar Grid.Row="3"
+                             Height="3"
+                             MinHeight="3"
+                             CornerRadius="2"
+                             Margin="0,10,0,8"
+                             VerticalAlignment="Bottom"
+                             Minimum="0"
+                             Maximum="{Binding Duration}"
+                             Value="{Binding Position}"
+                             Background="{DynamicResource WidgetTrack}"
+                             Foreground="{DynamicResource WidgetForeground}"
+                             IsVisible="{Binding ShowProgress}" />
+
+                <StackPanel Grid.Row="4"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Spacing="2">
+
+                    <Button Classes="transport" Command="{Binding Previous}">
+                        <TextBlock Classes="glyph" Text="{DynamicResource PreviousGlyph}" />
+                    </Button>
+
+                    <Button Classes="transport primary" Command="{Binding PlayPause}">
+                        <Panel>
+                            <TextBlock Classes="glyph" Text="{DynamicResource PlayGlyph}" IsVisible="{Binding IsPaused}" />
+                            <TextBlock Classes="glyph" Text="{DynamicResource PauseGlyph}" IsVisible="{Binding IsPlaying}" />
+                        </Panel>
+                    </Button>
+
+                    <Button Classes="transport" Command="{Binding Next}">
+                        <TextBlock Classes="glyph" Text="{DynamicResource NextGlyph}" />
+                    </Button>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+        </Viewbox>
+
+        <!-- ================= Large, designed at 292x292 ================= -->
+        <Viewbox Stretch="Uniform" IsVisible="{Binding IsLarge}">
+        <Grid Width="292" Height="292"
+              Margin="18"
+              RowDefinitions="*,Auto,Auto,Auto,Auto">
+
+            <Border Grid.Row="0"
+                    CornerRadius="8"
+                    ClipToBounds="True"
+                    HorizontalAlignment="Center"
+                    MaxWidth="180"
+                    Margin="0,0,0,14"
+                    IsVisible="{Binding Model.ShowCover}">
+                <Panel>
+                    <Border Background="{DynamicResource WidgetPlaceholder}" />
+                    <PathIcon Data="{DynamicResource NoteIcon}"
+                              Width="34" Height="34"
+                              Opacity="0.4"
+                              IsVisible="{Binding !HasCover}"
+                              Foreground="{DynamicResource WidgetForegroundSecondary}" />
+                    <Image Source="{Binding Cover}"
+                           Stretch="UniformToFill"
+                           IsVisible="{Binding HasCover}" />
+                </Panel>
+            </Border>
+
+            <c:Marquee Grid.Row="1"
+                       Text="{Binding Title}"
+                       IsScrolling="{Binding Model.ScrollTitle}"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Height="22"
+                       Foreground="{DynamicResource WidgetForeground}" />
+
+            <TextBlock Grid.Row="2"
+                       Classes="subtitle"
+                       Text="{Binding Artist}"
+                       IsVisible="{Binding HasArtist}" />
+
+            <Grid Grid.Row="3"
+                  Margin="0,8,0,0"
+                  IsVisible="{Binding ShowProgress}"
+                  RowDefinitions="Auto,Auto">
+
+                <Slider Grid.Row="0"
+                        Classes="seek"
+                        Minimum="0"
+                        Maximum="{Binding Duration}"
+                        Value="{Binding Position, Mode=TwoWay}"
+                        IsEnabled="{Binding CanSeek}" />
+
+                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+                    <TextBlock Grid.Column="0" Classes="caption" Text="{Binding PositionText}" />
+                    <TextBlock Grid.Column="2" Classes="caption" Text="{Binding DurationText}" />
+                </Grid>
+
+            </Grid>
+
+            <StackPanel Grid.Row="4"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0"
+                        Spacing="8">
+
+                <Button Classes="transport" Command="{Binding Previous}">
+                    <TextBlock Classes="glyph" Text="{DynamicResource PreviousGlyph}" />
+                </Button>
+
+                <Button Classes="transport primary" Command="{Binding PlayPause}">
+                    <Panel>
+                        <TextBlock Classes="glyph" Text="{DynamicResource PlayGlyph}" IsVisible="{Binding IsPaused}" />
+                        <TextBlock Classes="glyph" Text="{DynamicResource PauseGlyph}" IsVisible="{Binding IsPlaying}" />
+                    </Panel>
+                </Button>
+
+                <Button Classes="transport" Command="{Binding Next}">
+                    <TextBlock Classes="glyph" Text="{DynamicResource NextGlyph}" />
+                </Button>
+
+            </StackPanel>
+
+        </Grid>
+        </Viewbox>
+
+    </Grid>
+
+</UserControl>

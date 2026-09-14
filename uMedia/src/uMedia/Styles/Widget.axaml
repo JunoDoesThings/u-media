@@ -1,0 +1,141 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="WidgetTintColor">#FFFFFF</Color>
+                    <SolidColorBrush x:Key="WidgetForeground" Color="#E6000000" />
+                    <SolidColorBrush x:Key="WidgetForegroundSecondary" Color="#99000000" />
+                    <SolidColorBrush x:Key="WidgetHover" Color="#14000000" />
+                    <SolidColorBrush x:Key="WidgetPressed" Color="#26000000" />
+                    <SolidColorBrush x:Key="WidgetStroke" Color="#14000000" />
+                    <SolidColorBrush x:Key="WidgetTrack" Color="#26000000" />
+                    <SolidColorBrush x:Key="WidgetPlaceholder" Color="#0F000000" />
+                    <LinearGradientBrush x:Key="WidgetScrim" StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Offset="0" Color="#00FFFFFF" />
+                        <GradientStop Offset="1" Color="#CCFFFFFF" />
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="WidgetTintColor">#000000</Color>
+                    <SolidColorBrush x:Key="WidgetForeground" Color="#FFFFFFFF" />
+                    <SolidColorBrush x:Key="WidgetForegroundSecondary" Color="#A6FFFFFF" />
+                    <SolidColorBrush x:Key="WidgetHover" Color="#1AFFFFFF" />
+                    <SolidColorBrush x:Key="WidgetPressed" Color="#33FFFFFF" />
+                    <SolidColorBrush x:Key="WidgetStroke" Color="#1AFFFFFF" />
+                    <SolidColorBrush x:Key="WidgetTrack" Color="#33FFFFFF" />
+                    <SolidColorBrush x:Key="WidgetPlaceholder" Color="#14FFFFFF" />
+                    <LinearGradientBrush x:Key="WidgetScrim" StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Offset="0" Color="#00000000" />
+                        <GradientStop Offset="1" Color="#CC000000" />
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <!--
+                Transport icons come from the system icon font rather than hand
+                drawn paths: Windows 11 ships Segoe Fluent Icons, Windows 10 has
+                the same codepoints in Segoe MDL2 Assets, and both are hinted at
+                small sizes in a way a scaled path is not.
+            -->
+            <FontFamily x:Key="SymbolFont">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+
+            <x:String x:Key="PlayGlyph">&#xE768;</x:String>
+            <x:String x:Key="PauseGlyph">&#xE769;</x:String>
+            <x:String x:Key="NextGlyph">&#xE893;</x:String>
+            <x:String x:Key="PreviousGlyph">&#xE892;</x:String>
+
+            <StreamGeometry x:Key="NoteIcon">M9,18 A3,3 0 1 1 9,12 A3,3 0 0 1 9,18 Z M12,15 V4 L19,6 V17 A3,3 0 1 1 16,14 V8.5 L14,8 V15 Z</StreamGeometry>
+
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <Style Selector="Button.transport">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForeground}" />
+    </Style>
+
+    <Style Selector="Button.transport /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button.transport:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource WidgetHover}" />
+    </Style>
+
+    <Style Selector="Button.transport:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource WidgetPressed}" />
+    </Style>
+
+    <Style Selector="Button.transport:disabled">
+        <Setter Property="Opacity" Value="0.35" />
+    </Style>
+
+    <Style Selector="Button.transport.primary">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
+
+    <Style Selector="TextBlock.glyph">
+        <Setter Property="FontFamily" Value="{DynamicResource SymbolFont}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForeground}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Button.transport.primary TextBlock.glyph">
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style Selector="TextBlock.title">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForeground}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style Selector="TextBlock.subtitle">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForegroundSecondary}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style Selector="TextBlock.caption">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForegroundSecondary}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- A thin, flat seek bar: the Fluent default is far too tall for a widget -->
+    <Style Selector="Slider.seek">
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource WidgetForeground}" />
+    </Style>
+
+    <Style Selector="Slider.seek /template/ Thumb">
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
+    </Style>
+
+</Styles>
